@@ -449,13 +449,18 @@ function toggleBeachItem(idx, el) {
 /* ================================================================
    BUILDER CLASS
 ================================================================ */
-function updateBuilderClass() {
-  const name = document.getElementById('name-input').value.trim();
-  const role = document.getElementById('role-select').value;
-  const seed = name
-    ? (name.charCodeAt(0) * 3 + name.length * 7 + role.length) % BUILDER_CLASSES.length
-    : (role.charCodeAt(0) * 2) % BUILDER_CLASSES.length;
-  state.builderClass = BUILDER_CLASSES[seed];
+function updateBuilderClass(forceRandom = false) {
+  if (forceRandom || !state.builderClass) {
+    const randomIndex = Math.floor(Math.random() * BUILDER_CLASSES.length);
+    state.builderClass = BUILDER_CLASSES[randomIndex];
+  } else {
+    const name = document.getElementById('name-input').value.trim();
+    const role = document.getElementById('role-select').value;
+    const seed = name
+      ? (name.charCodeAt(0) * 13 + name.length * 17 + role.length + Date.now()) % BUILDER_CLASSES.length
+      : Math.floor(Math.random() * BUILDER_CLASSES.length);
+    state.builderClass = BUILDER_CLASSES[Math.abs(seed) % BUILDER_CLASSES.length];
+  }
   document.getElementById('builder-class-display').textContent = state.builderClass;
   setActiveStep(state.photo ? 2 : 1);
 }
@@ -528,55 +533,54 @@ function resetPhoto() {
 }
 
 /* ================================================================
-   QR CODE — draws to canvas using a built-in minimal QR algorithm.
-   For REAL QR codes when deployed online, this uses the cdnjs lib
-   if available; otherwise generates a visually convincing pattern.
+   QR CODE — Transparent background, Theme Green (#1B5E38) modules
 ================================================================ */
 function generateQRCode(canvas, text, size) {
   return new Promise((resolve) => {
     canvas.width  = size;
     canvas.height = size;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#F5EDD6';
-    ctx.fillRect(0, 0, size, size);
+    ctx.clearRect(0, 0, size, size);
 
-    // Use a simple deterministic pixel pattern based on text hash
-    // This produces a visually correct-looking QR code
     const hash = simpleHash(text);
-    const mods = 25; // 25x25 modules for Version 2
+    const mods = 25; // 25x25 modules
     const mod  = Math.floor(size / mods);
     const off  = Math.floor((size - mod * mods) / 2);
 
-    // Seeded pseudo-random fill using text hash
     let rng = hash;
     const nextBit = () => { rng = (rng * 1664525 + 1013904223) >>> 0; return (rng >>> 31) & 1; };
 
-    // Mark finder pattern positions (top-left, top-right, bottom-left)
+    // Theme Green (#1B5E38) Finder patterns
     const finder = (fx, fy) => {
       for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) {
         const inner = r >= 1 && r <= 5 && c >= 1 && c <= 5;
         const fill  = (r === 0 || r === 6 || c === 0 || c === 6) ? 1 : (inner && r >= 2 && r <= 4 && c >= 2 && c <= 4) ? 1 : 0;
-        ctx.fillStyle = fill ? '#0D0D0D' : '#F5EDD6';
-        ctx.fillRect(off + (fx + c) * mod, off + (fy + r) * mod, mod, mod);
+        if (fill) {
+          ctx.fillStyle = '#1B5E38';
+          ctx.fillRect(off + (fx + c) * mod, off + (fy + r) * mod, mod, mod);
+        }
       }
     };
     finder(0, 0); finder(mods - 7, 0); finder(0, mods - 7);
 
-    // Fill data modules (excluding finder + separator zones)
+    // Theme Green (#1B5E38) Data modules
     for (let r = 0; r < mods; r++) {
       for (let c = 0; c < mods; c++) {
-        // Skip finder pattern zones
         if (r < 8 && c < 8)         continue;
         if (r < 8 && c >= mods - 8) continue;
         if (r >= mods - 8 && c < 8) continue;
-        ctx.fillStyle = nextBit() ? '#0D0D0D' : '#F5EDD6';
-        ctx.fillRect(off + c * mod, off + r * mod, mod, mod);
+        if (nextBit()) {
+          ctx.fillStyle = '#1B5E38';
+          ctx.fillRect(off + c * mod, off + r * mod, mod, mod);
+        }
       }
     }
 
-    // Quiet zone border
-    ctx.strokeStyle = '#F5EDD6'; ctx.lineWidth = off;
-    ctx.strokeRect(off / 2, off / 2, size - off, size - off);
+    // Center Palm Tree Badge
+    const cx = size / 2, cy = size / 2;
+    ctx.font = `${Math.round(size * 0.20)}px sans-serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('🌴', cx, cy + 1);
 
     resolve();
   });
@@ -589,35 +593,34 @@ function simpleHash(str) {
 }
 
 /* ================================================================
-   BARCODE  (JsBarcode CDN if loaded, otherwise canvas-drawn fallback)
+   BARCODE — Transparent background, Theme Green (#1B5E38) lines
 ================================================================ */
 function generateBarcode(canvas, text) {
   if (typeof JsBarcode !== 'undefined') {
     try {
       JsBarcode(canvas, text, {
-        format: 'CODE128', width: 2.4, height: 52,
-        displayValue: false, background: '#F5EDD6', lineColor: '#0D0D0D', margin: 5,
+        format: 'CODE128', width: 2.2, height: 48,
+        displayValue: false, background: 'rgba(0,0,0,0)', lineColor: '#1B5E38', margin: 4,
       });
       return;
     } catch (e) { console.warn('JsBarcode error:', e); }
   }
-  // Fallback: draw convincing barcode lines
   drawFallbackBarcode(canvas, text);
 }
 
 function drawFallbackBarcode(canvas, text) {
-  const W = 180, H = 64;
+  const W = 160, H = 50;
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#F5EDD6'; ctx.fillRect(0, 0, W, H);
+  ctx.clearRect(0, 0, W, H);
   const hash = simpleHash(text);
   let rng = hash;
   const nextW = () => { rng = (rng * 1664525 + 1013904223) >>> 0; return (rng % 3) + 1; };
-  let x = 6;
+  let x = 4;
   let dark = true;
-  while (x < W - 6) {
+  while (x < W - 4) {
     const bw = nextW();
-    if (dark) { ctx.fillStyle = '#0D0D0D'; ctx.fillRect(x, 6, bw, H - 14); }
+    if (dark) { ctx.fillStyle = '#1B5E38'; ctx.fillRect(x, 4, bw, H - 8); }
     x += bw; dark = !dark;
   }
 }
@@ -705,7 +708,7 @@ function drawCard(ctx, W, H, d) {
   drawPalmTree(ctx, 26, H - 190, 0.9);
   drawPhotoCircle(ctx, d.photo, W / 2, 413, 145);
   drawLetsBuild(ctx, W - 114, 314);
-  drawGoanHouse(ctx, W - 222, 498);
+  drawGoanHouse(ctx, 475, 385);
   drawNamePlate(ctx, W, 576, d.name);
   drawRolePill(ctx, W, 648, d.role);
   drawInfoDivider(ctx, W, 705);
@@ -1059,24 +1062,22 @@ function drawBeachBagCol(ctx, x, y, w, items) {
   ctx.strokeStyle='rgba(27,94,56,0.3)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(x,y+19); ctx.lineTo(x+w,y+19); ctx.stroke(); ctx.setLineDash([]);
   items.forEach((item,i)=>{
-    const iy=y+34+i*33;
-    ctx.font='22px sans-serif'; ctx.textAlign='left'; ctx.fillText(item.emoji,x,iy+16);
-    ctx.fillStyle='#1B5E38'; ctx.font=`bold 14px 'Space Grotesk',sans-serif`; ctx.fillText(item.label.toUpperCase(),x+30,iy+16);
+    const iy=y+34+i*32;
+    ctx.font='20px sans-serif'; ctx.textAlign='left'; ctx.fillText(item.emoji,x,iy+16);
+    ctx.fillStyle='#1B5E38'; ctx.font=`bold 13.5px 'Space Grotesk',sans-serif`; ctx.fillText(item.label.toUpperCase(),x+28,iy+16);
   });
 }
 
-/* QR section (real QR from library) */
+/* QR section (transparent background, theme green modules) */
 function drawQRSection(ctx, qrCanvas, builderId, x, y) {
-  rr(ctx,x,y,100,100,3,'#F5EDD6','rgba(27,94,56,0.25)',1.5);
   ctx.drawImage(qrCanvas,x,y,100,100);
   ctx.fillStyle='#1B5E38'; ctx.textAlign='left';
   ctx.font=`bold 8.5px 'Space Mono',monospace`; ctx.fillText('BUILDER ID',x,y+113);
   ctx.font=`bold 12px 'Space Mono',monospace`; ctx.fillText(builderId,x,y+128);
 }
 
-/* Barcode section (real barcode from library) */
+/* Barcode section (transparent background, theme green lines) */
 function drawBarcodeSection(ctx, barcodeCanvas, builderId, x, y) {
-  rr(ctx,x,y,162,64,3,'#F5EDD6','rgba(27,94,56,0.25)',1.5);
   try { ctx.drawImage(barcodeCanvas,x,y,162,64); }
   catch(e) {
     ctx.fillStyle='#1B5E38'; ctx.textAlign='center'; ctx.font=`bold 11px 'Space Mono',monospace`;
@@ -1141,17 +1142,57 @@ function downloadCard() {
   showToast('⬇️ Downloading your card!');
 }
 
-function shareOnX() {
+async function shareOnX() {
+  if (!state.cardDataURL) return;
+
   const name = document.getElementById('name-input').value.trim();
   const role = document.getElementById('role-select').value;
-  const text = encodeURIComponent(
-    `🌴 I'm heading to Hacker House Goa 2026! Oct 28–31, Goa, India.\n` +
-    (name?`Builder: ${name} · ${role}\n\n`:'\n') +
+  const tweetText = `🌴 I'm heading to Hacker House Goa 2026! Oct 28–31, Goa, India.\n` +
+    (name ? `Builder: ${name} · ${role}\n\n` : '\n') +
     `Generate yours 👇\n${window.location.href}\n\n` +
-    `#FrameInGoa #HackerHouseGoa #BuildInGoa`
-  );
-  window.open(`https://twitter.com/intent/tweet?text=${text}`,'_blank');
-  showToast('📤 Opening X to share!');
+    `#FrameInGoa #HackerHouseGoa #BuildInGoa`;
+
+  try {
+    const res = await fetch(state.cardDataURL);
+    const blob = await res.blob();
+    const file = new File([blob], 'HH_Goa_2026_Builder_Card.png', { type: 'image/png' });
+
+    // 1. Try Web Share API (Attaches image file directly to X / system share)
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: 'HH Goa 2026 Builder ID Card',
+        text: tweetText,
+        files: [file]
+      });
+      showToast('🎉 Card shared to X!');
+      return;
+    }
+
+    // 2. Fallback: Copy image blob to Clipboard so user can Ctrl+V in X
+    let imageCopied = false;
+    if (navigator.clipboard && window.ClipboardItem) {
+      try {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        imageCopied = true;
+      } catch (clipErr) {
+        console.warn('Clipboard image write not allowed:', clipErr);
+      }
+    }
+
+    // Open X Web Intent
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+    window.open(url, '_blank');
+
+    if (imageCopied) {
+      showToast('📋 Card image copied! Press Ctrl+V in X to attach!');
+    } else {
+      downloadCard();
+      showToast('📤 X opened! Card image downloaded to attach.');
+    }
+  } catch (err) {
+    console.error('Share error:', err);
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+  }
 }
 
 function openFullSize() {
