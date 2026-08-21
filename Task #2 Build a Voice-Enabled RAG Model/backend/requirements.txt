@@ -1,0 +1,68 @@
+# ─────────────────────────────────────────────────────────────
+#  Backend Dependencies — HH Goa Voice RAG
+# ─────────────────────────────────────────────────────────────
+
+# Web Framework
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+
+# Data Validation
+pydantic==2.7.4
+pydantic-settings==2.3.3
+
+# AI / LLM
+google-generativeai==0.7.2
+
+# Speech-to-Text (Sarvam via HTTP)
+httpx==0.27.0
+aiohttp==3.9.5
+
+# Embeddings & Vector Search
+sentence-transformers==3.0.1
+faiss-cpu
+numpy
+
+# BM25 / Lexical Search
+rank-bm25==0.2.2
+
+# Reranking
+# (uses sentence-transformers cross-encoder)
+
+# Language Detection
+langdetect==1.0.9
+
+# Dataset Loading
+datasets==2.20.0
+huggingface-hub==0.23.4
+
+# NLP / Tokenization
+nltk==3.8.1
+tiktoken==0.7.0
+
+# Async & Performance
+anyio==4.4.0
+asyncio-cache
+
+# Caching
+diskcache==5.6.3
+
+# Logging & Observability
+structlog==24.2.0
+python-json-logger==2.0.7
+
+# Utilities
+python-dotenv==1.0.1
+orjson==3.10.5
+rich==13.7.1
+typer==0.12.3
+tqdm==4.66.4
+
+# Testing
+pytest==8.2.2
+pytest-asyncio==0.23.7
+pytest-mock==3.14.0
+httpx==0.27.0
+
+# Type checking
+types-requests==2.32.0.20240602

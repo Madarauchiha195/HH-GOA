@@ -1,0 +1,86 @@
+{
+  "seed_001_en_india_cap": {
+    "document_id": "en_india_cap",
+    "language": "en",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 31
+  },
+  "seed_002_en_h1b_visa": {
+    "document_id": "en_h1b_visa",
+    "language": "en",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 40
+  },
+  "seed_003_en_driving_license": {
+    "document_id": "en_driving_license",
+    "language": "en",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 37
+  },
+  "seed_004_en_goa_info": {
+    "document_id": "en_goa_info",
+    "language": "en",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 40
+  },
+  "seed_005_en_rag_system": {
+    "document_id": "en_rag_system",
+    "language": "en",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 26
+  },
+  "seed_006_hi_constitution": {
+    "document_id": "hi_constitution",
+    "language": "hi",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 28
+  },
+  "seed_007_hi_capital": {
+    "document_id": "hi_capital",
+    "language": "hi",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 20
+  },
+  "seed_008_hi_karnataka": {
+    "document_id": "hi_karnataka",
+    "language": "hi",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 30
+  },
+  "seed_009_hi_driving_lic": {
+    "document_id": "hi_driving_lic",
+    "language": "hi",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 24
+  },
+  "seed_010_kn_capital": {
+    "document_id": "kn_capital",
+    "language": "kn",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 16
+  },
+  "seed_011_mr_capital": {
+    "document_id": "mr_capital",
+    "language": "mr",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 15
+  },
+  "seed_012_mr_driving_lic": {
+    "document_id": "mr_driving_lic",
+    "language": "mr",
+    "strategy": "seed_curated",
+    "chunk_index": 0,
+    "token_count": 14
+  }
+}

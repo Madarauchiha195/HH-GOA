@@ -1,0 +1,14 @@
+{
+  "seed_001_en_india_cap": "New Delhi is the capital of India and the seat of all three branches of the Government of India. The foundation stone of the city was laid on 15 December 1911.",
+  "seed_002_en_h1b_visa": "The H-1B visa is a non-immigrant visa category in the United States under the Immigration and Nationality Act. It permits U.S. employers to temporarily employ foreign workers in specialty occupations that require specialized knowledge and a bachelor's degree or higher.",
+  "seed_003_en_driving_license": "Driving license renewal in Maharashtra and other Indian states can be done online through the Parivahan Sewa portal. Applicants must submit Form 9, medical certificate Form 1-A if above 40 years, and payment of the renewal fee.",
+  "seed_004_en_goa_info": "Goa is a state on the southwestern coast of India within the Konkan region. Panaji is the state's capital, while Vasco da Gama is its largest city. Goa is renowned for its beaches, places of worship, and world heritage architecture.",
+  "seed_005_en_rag_system": "Retrieval-Augmented Generation (RAG) is an AI framework for improving the quality of LLM-generated responses by grounding the model on external knowledge bases before generating an answer.",
+  "seed_006_hi_constitution": "भारतीय संविधान में वर्तमान में 395 अनुच्छेद और 12 अनुसूचियां हैं जो 25 भागों में विभाजित हैं। मूल संविधान में 395 अनुच्छेद, 22 भाग और 8 अनुसूचियां थीं।",
+  "seed_007_hi_capital": "भारत की राजधानी नई दिल्ली है। यह भारत सरकार की तीनों शाखाओं - कार्यपालिका, विधायिका और न्यायपालिका का केंद्र है।",
+  "seed_008_hi_karnataka": "कर्नाटक की राजधानी बेंगलुरु (बैंगलोर) है। इसे भारत की सिलिकॉन वैली के रूप में भी जाना जाता है क्योंकि यह भारत के प्रमुख आईटी और तकनीकी नवाचार का केंद्र है।",
+  "seed_009_hi_driving_lic": "महाराष्ट्र और अन्य राज्यों में ड्राइविंग लाइसेंस नवीनीकरण की प्रक्रिया परिवहन सेवा पोर्टल (Parivahan Sewa) के माध्यम से ऑनलाइन पूरी की जा सकती है।",
+  "seed_010_kn_capital": "ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ ಬೆಂಗಳೂರು. ಇದು ಭಾರತದ ಪ್ರಮುಖ ಮಾಹಿತಿ ತಂತ್ರಜ್ಞಾನ (IT) ಕೇಂದ್ರವಾಗಿದೆ ಮತ್ತು ಭಾರತದ ಸಿಲಿಕಾನ್ ವ್ಯಾಲಿ ಎಂದು ಪ್ರಸಿದ್ಧವಾಗಿದೆ.",
+  "seed_011_mr_capital": "महाराष्ट्राची राजधानी मुंबई आहे, जी भारताची आर्थिक राजधानी मानली जाते. नागपूर ही महाराष्ट्राची उपराजधानी आहे.",
+  "seed_012_mr_driving_lic": "महाराष्ट्रामध्ये ड्रायव्हिंग लायसन्सचे नूतनीकरण परिवहन सेवा पोर्टलद्वारे ऑनलाइन पद्धतीने अर्ज करून सहजपणे करता येते."
+}
